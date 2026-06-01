@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "@tursodatabase/serverless": "^1.1.2",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1"
+  },
+  "type": "module"
+}
