@@ -40,7 +40,19 @@ router.post("/login", async (req, res) => {
     process.env.JWT_SECRET
   );
 
+    res.cookie("token", token, {
+    httpOnly: true,
+    secure: false, // TODO: true (https)
+    sameSite: "lax",
+    maxAge: 360 * 24 * 60 * 60 * 1000, // 1 χρόνο
+  });
+
   res.json({ token });
+});
+
+router.post("/logout", (req, res) => {
+  res.clearCookie("token");
+  res.json({ message: "Logged out" });
 });
 
 export default router;

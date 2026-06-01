@@ -7,13 +7,20 @@ import courseRoutes from "../routes/courses.js";
 import quizRoutes from "../routes/quiz.js";
 import sessionRoutes from "../routes/sessions.js";
 import statsRoutes from "../routes/stats.js";
+import cookieParser from "cookie-parser";
 
 dotenv.config();
 
 const app = express();
 
 app.use(cors());
+
 app.use(express.json());
+app.use(cookieParser());
+
+// fetch("http://localhost:3000/courses", {
+//   credentials: "include"
+// });
 
 app.use("/auth", authRoutes);
 app.use("/courses", courseRoutes);
