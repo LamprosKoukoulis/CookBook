@@ -11,8 +11,8 @@
 
 ## 1. Clone repository
 ```bash
-git clone https://github.com/your-repo-name.git
-cd your-repo-name
+git clone https://github.com/LamprosKoukoulis/CookBook/
+cd CookBook
 ```
 
 ---
