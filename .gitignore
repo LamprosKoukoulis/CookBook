@@ -1,3 +1,6 @@
 .env
 globalObect.html
 .vscode/settings.json
+node_modules/
+.vscode/
+package-lock.json
