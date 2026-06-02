@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Register</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<div class="container">
+
+    <h1>Register</h1>
+
+    <form id="registerForm">
+
+        <input
+            type="text"
+            id="full_name"
+            placeholder="Full Name"
+            required
+        >
+
+        <input
+            type="email"
+            id="email"
+            placeholder="Email"
+            required
+        >
+
+        <input
+            type="password"
+            id="password"
+            placeholder="Password"
+            required
+        >
+
+        <select id="semester">
+            <option value="1">1st Semester</option>
+            <option value="2">2nd Semester</option>
+            <option value="3">3rd Semester</option>
+            <option value="4">4th Semester</option>
+        </select>
+
+        <button type="submit">
+            Register
+        </button>
+
+    </form>
+
+</div>
+
+<script src="/js/register.js"></script>
+
+</body>
+</html>

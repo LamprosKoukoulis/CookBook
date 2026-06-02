@@ -1,11 +1,11 @@
 import express from "express";
-import { db } from "../db/client.js";
 import { authMiddleware } from "../middleware/auth.js";
+import query from "../db/query.js";
 
 const router = express.Router();
 
 router.get("/hall-of-fame", authMiddleware, async (req, res) => {
-  const result = await db.execute(`
+  const result = await queryery(`
     SELECT u.full_name, SUM(s.time_spent_seconds) as total_time
     FROM user_sessions s
     JOIN users u ON u.id = s.user_id

@@ -1,4 +1,4 @@
-import getDb from "./client.js";
+import {getDb} from "./client.js";
 
 
 export default async function query(sql,params =[]) {

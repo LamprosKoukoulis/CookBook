@@ -1,13 +1,13 @@
 import express from "express";
-import { db } from "../db/client.js";
 import { authMiddleware } from "../middleware/auth.js";
+import query from "../db/query.js";
 
 const router = express.Router();
 
 router.post("/start", authMiddleware, async (req, res) => {
   const { module_id } = req.body;
 
-  await db.execute({
+  await query({
     sql: `
       INSERT INTO user_sessions 
       (id, user_id, module_id, started_at)
@@ -22,7 +22,7 @@ router.post("/start", authMiddleware, async (req, res) => {
 router.post("/end", authMiddleware, async (req, res) => {
   const { session_id, seconds } = req.body;
 
-  await db.execute({
+  await query({
     sql: `
       UPDATE user_sessions
       SET ended_at = datetime('now'),

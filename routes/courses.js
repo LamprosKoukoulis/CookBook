@@ -1,16 +1,16 @@
 import express from "express";
-import { db } from "../db/client.js";
+import query from "../db/query.js";
 import { authMiddleware } from "../middleware/auth.js";
 
 const router = express.Router();
 
 router.get("/", authMiddleware, async (req, res) => {
-  const result = await db.execute("SELECT * FROM courses");
+  const result = await queryery("SELECT * FROM courses");
   res.json(result.rows);
 });
 
 router.get("/:id/modules", authMiddleware, async (req, res) => {
-  const result = await db.execute({
+  const result = await query({
     sql: "SELECT * FROM modules WHERE course_id = ?",
     args: [req.params.id],
   });

@@ -1,11 +1,11 @@
 import express from "express";
-import { db } from "../db/client.js";
 import { authMiddleware } from "../middleware/auth.js";
+import query from "../db/query.js";
 
 const router = express.Router();
 
 router.get("/:moduleId", authMiddleware, async (req, res) => {
-  const result = await db.execute({
+  const result = await query({
     sql: `
       SELECT q.*
       FROM quizzes qz
@@ -24,7 +24,7 @@ router.post("/submit", authMiddleware, async (req, res) => {
   let score = 0;
 
   for (const a of answers) {
-    const q = await db.execute({
+    const q = await queryry({
       sql: "SELECT correct_answer FROM questions WHERE id = ?",
       args: [a.question_id],
     });
@@ -34,7 +34,7 @@ router.post("/submit", authMiddleware, async (req, res) => {
     const isCorrect = correct === a.answer;
     if (isCorrect) score++;
 
-    await db.execute({
+    await query({
       sql: `
         INSERT INTO user_answers 
         (id, user_id, question_id, answer, is_correct)
