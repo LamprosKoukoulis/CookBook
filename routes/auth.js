@@ -2,7 +2,7 @@ import express from "express";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import query from "../db/query.js"
-import { authMiddleware } from "../middleware/auth.js";
+import { authMiddleware,adminMiddleware } from "../middleware/auth.js";
 
 const router = express.Router();
 
@@ -83,7 +83,7 @@ router.post("/login", async (req, res) => {
   if (!valid) return res.status(401).json({ error: "Invalid password" });
 
   const token = jwt.sign(
-    { id: u.id, semester: u.semester },
+    { id: u.id, role: u.role,semester: u.semester },
     process.env.JWT_SECRET
   );
 
@@ -93,7 +93,7 @@ router.post("/login", async (req, res) => {
     sameSite: "lax",
     maxAge: 360 * 24 * 60 * 60 * 1000, // 1 χρόνο
   });
-  console.log("LOGIN COOKIE SET");
+  // console.log("LOGIN COOKIE SET");
   res.json({ token });
 });
 
@@ -113,15 +113,25 @@ router.get(
           id,
           email,
           full_name,
-          semester
+          semester,
+          role
         FROM users
         WHERE id = ?
         `,
         [req.user.id]
       );
-    console.log("/me :"+user.rows[0]);
+    
     res.json(user.rows[0]);
   }
+);
+
+router.get(
+    "/admin/panel",
+    authMiddleware,
+    adminMiddleware,
+    (req, res) => {
+        res.redirect("/admin.html");
+    }
 );
 
 export default router;

@@ -1,18 +1,3 @@
-document
-.getElementById("logoutBtn")
-.addEventListener("click", async ()=>{
-
-    await fetch(
-        "/auth/logout",
-        {
-            method:"POST",
-            credentials:"include"
-        }
-    );
-
-    window.location.reload();
-});
-
 async function loadUser(){
 
     const response =await fetch(
@@ -23,27 +8,20 @@ async function loadUser(){
         );
 
     if(!response.ok){
-        // window.location.href = "/login.html";
+        window.location.href = "/login.html";
         return;
     }
 
     const user = await response.json();
-    console.log("USER FROM API:", user);
-    document.getElementById(
-        "authButtons"
-    ).style.display = "none";
+    // console.log("USER FROM API:", user);
+    // document.getElementById("authButtons").style.display = "none";
 
-    document.getElementById(
-        "userArea"
-    ).style.display = "block";
+    // document.getElementById("userArea").style.display = "block";
 
-    document.getElementById(
-        "privateContent"
-    ).style.display = "block";
+    document.getElementById("privateContent").style.display = "block";
 
-    document.getElementById(
-        "welcomeText"
-    ).textContent =
+    document.getElementById("welcomeText")
+    .textContent =
         `Welcome ${user.full_name}`;
 }
 

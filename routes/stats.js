@@ -5,7 +5,7 @@ import query from "../db/query.js";
 const router = express.Router();
 
 router.get("/hall-of-fame", authMiddleware, async (req, res) => {
-  const result = await queryery(`
+  const result = await query(`
     SELECT u.full_name, SUM(s.time_spent_seconds) as total_time
     FROM user_sessions s
     JOIN users u ON u.id = s.user_id

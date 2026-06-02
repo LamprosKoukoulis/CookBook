@@ -24,7 +24,7 @@ router.post("/submit", authMiddleware, async (req, res) => {
   let score = 0;
 
   for (const a of answers) {
-    const q = await queryry({
+    const q = await query({
       sql: "SELECT correct_answer FROM questions WHERE id = ?",
       args: [a.question_id],
     });
