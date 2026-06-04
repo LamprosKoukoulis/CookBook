@@ -5,7 +5,7 @@ import { authMiddleware } from "../middleware/auth.js";
 const router = express.Router();
 
 router.get("/", authMiddleware, async (req, res) => {
-  const result = await queryery("SELECT * FROM courses");
+  const result = await query("SELECT * FROM courses");
   res.json(result.rows);
 });
 

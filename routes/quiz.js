@@ -37,14 +37,19 @@ router.post("/submit", authMiddleware, async (req, res) => {
     await query({
       sql: `
         INSERT INTO user_answers 
-        (id, user_id, question_id, answer, is_correct)
-        VALUES (lower(hex(randomblob(16))), ?, ?, ?, ?)
+        (user_id, question_id, answer, is_correct)
+        VALUES (?, ?, ?, ?)
       `,
       args: [req.user.id, a.question_id, a.answer, isCorrect ? 1 : 0],
     });
   }
 
   res.json({ score });
+});
+
+router.get("/", authMiddleware, async (req, res) => {
+  const result = await query("SELECT * FROM quizzes");
+  res.json(result.rows);
 });
 
 export default router;

@@ -42,11 +42,10 @@ router.post("/register", async (req, res) => {
     const hash = await bcrypt.hash(password, 10);
 
     await query(
-      `INSERT INTO users(id,email,password_hash,full_name,semester)
-      VALUES(?,?,?,?,?)
+      `INSERT INTO users(email,password_hash,full_name,semester)
+      VALUES(?,?,?,?)
       `,
       [
-        crypto.randomUUID(),
         email,
         hash,
         full_name,

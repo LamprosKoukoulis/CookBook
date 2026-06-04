@@ -12,17 +12,19 @@ async function loadUser(){
         return;
     }
 
-    const user = await response.json();
-    // console.log("USER FROM API:", user);
-    // document.getElementById("authButtons").style.display = "none";
 
-    // document.getElementById("userArea").style.display = "block";
-
-    document.getElementById("privateContent").style.display = "block";
-
-    document.getElementById("welcomeText")
-    .textContent =
+        const user = await response.json();
+        console.log("USER FROM API:", user);
+        // document.getElementById("authButtons").style.display = "none";
+        
+        // document.getElementById("userArea").style.display = "block";
+        
+        document.getElementById("privateContent").style.display = "block";
+        
+        document.getElementById("welcomeText")
+        .textContent =
         `Welcome ${user.full_name}`;
+
 }
 
 loadUser();

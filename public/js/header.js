@@ -6,6 +6,7 @@ async function loadHeader() {
     const html = await res.text();
     
     container.innerHTML = html;
+
     document.getElementById("logo").addEventListener("click", () => {window.location.href = "/dashboard.html";});
     
     const navGuest = document.getElementById("nav-guest");
@@ -14,14 +15,25 @@ async function loadHeader() {
 
     const userRes = await fetch("/auth/me", {
         credentials: "include"
-    }).catch(() => null);
+    // }).catch(() => null);
+    }).catch(err => {
+        console.log("FETCH FAILED:", err);
+        return null;
+    });
 
+    try {
+        const user = JSON.parse(text);
+        console.log("USER:", user);
+    } catch (e) {
+        console.log("NOT JSON RESPONSE");
+    }
+    
     //IF NOT LOGGED IN
     if (!userRes || !userRes.ok) {
 
-        navGuest.style.display = "block";
-        navUser.style.display = "none";
-        navAdmin.style.display = "none";
+        navGuest.hidden = false;
+        navUser.hidden = true;
+        navAdmin.hidden = true;
 
         return;
     }

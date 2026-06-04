@@ -10,8 +10,8 @@ router.post("/start", authMiddleware, async (req, res) => {
   await query({
     sql: `
       INSERT INTO user_sessions 
-      (id, user_id, module_id, started_at)
-      VALUES (lower(hex(randomblob(16))), ?, ?, datetime('now'))
+      (user_id, module_id, started_at)
+      VALUES (?, ?, datetime('now'))
     `,
     args: [req.user.id, module_id],
   });

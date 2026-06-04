@@ -5,6 +5,8 @@ import dotenv from "dotenv";
 import authRoutes from "../routes/auth.js";
 import courseRoutes from "../routes/courses.js";
 import quizRoutes from "../routes/quiz.js";
+import moduleRoutes from "../routes/modules.js";
+import questionRoutes from "../routes/questions.js";
 import sessionRoutes from "../routes/sessions.js";
 import statsRoutes from "../routes/stats.js";
 import cookieParser from "cookie-parser";
@@ -33,6 +35,8 @@ app.get("/", (req, res) => {
 app.use("/auth", authRoutes);
 app.use("/courses", courseRoutes);
 app.use("/quiz", quizRoutes);
+app.use("/modules", moduleRoutes);
+app.use("/questions", questionRoutes);
 app.use("/sessions", sessionRoutes);
 app.use("/stats", statsRoutes);
 
