@@ -207,16 +207,16 @@ async function loadModules(courseId = null) {
 
 async function createQuiz(e) {
     e.preventDefault();
-
+    
     const body = {
-        module_id:
-            document.getElementById("quizModule").value,
-
-        title:
-            document.getElementById("quizTitle").value
+        module_id:  document.getElementById("quizModule").value,
+        course_id:  document.getElementById("quizCourse").value,
+        title:      document.getElementById("quizTitle").value
     };
-
-    const res = await fetch("/quiz/submit", {
+    console.log("course:", document.getElementById("quizCourse").value);
+    console.log("module:", document.getElementById("quizModule").value);
+    console.log("title:", document.getElementById("quizTitle").value);
+    const res = await fetch("/quiz/create", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -236,7 +236,7 @@ async function loadQuizzes(moduleId = null) {
     let url = "/quiz";
 
     if (moduleId) {
-        url = `/quiz/:${moduleId}`;
+        url = `/quiz/${moduleId}`;
     }
 
     const res = await fetch(url, {

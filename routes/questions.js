@@ -40,22 +40,37 @@ router.post("/", authMiddleware, async (req, res) => {
         quiz_id,
         question,
         type,
+        options,
         correct_answer
     } = req.body;
 
-    await query(`
+    const result = await query(`
             INSERT INTO questions(
                 quiz_id,
                 question,
-                type,
-                correct_answer
+                type
             )
-            VALUES(?,?,?,?,?)
+            VALUES(?,?,?)
+            RETURNING id
         `,
         [
-            quiz_id,
+            Number(quiz_id),
             question,
-            type,
+            type
+        ]
+    );
+        await query(`
+            INSERT INTO question_answers(
+                question_id,
+                option_text,
+                is_correct
+            )
+            VALUES(?,?,?)
+            RETURNING id
+        `,
+        [
+            result.rows[0].id,
+            options,
             correct_answer
         ]
     );

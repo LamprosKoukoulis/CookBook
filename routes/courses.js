@@ -1,8 +1,9 @@
 import express from "express";
 import query from "../db/query.js";
-import { authMiddleware } from "../middleware/auth.js";
+import { adminMiddleware, authMiddleware } from "../middleware/auth.js";
 
 const router = express.Router();
+
 
 router.get("/", authMiddleware, async (req, res) => {
   const result = await query("SELECT * FROM courses");

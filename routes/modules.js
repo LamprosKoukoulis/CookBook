@@ -52,7 +52,7 @@ router.post("/", authMiddleware, async (req, res) => {
                 content,
                 difficulty
             )
-            VALUES(?,?,?,?,?)
+            VALUES(?,?,?,?)
         `,
         [
             course_id,

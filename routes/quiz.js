@@ -1,5 +1,5 @@
 import express from "express";
-import { authMiddleware } from "../middleware/auth.js";
+import { adminMiddleware, authMiddleware } from "../middleware/auth.js";
 import query from "../db/query.js";
 
 const router = express.Router();
@@ -15,6 +15,30 @@ router.get("/:moduleId", authMiddleware, async (req, res) => {
   );
 
   res.json(result.rows);
+});
+
+router.post("/create",authMiddleware,async(req,res) =>{
+    const { module_id,title,course_id } = req.body;
+    
+    await query(
+        `
+            INSERT INTO quizzes(
+              course_id,  
+              module_id,
+              title
+            )
+            VALUES(?,?,?)
+        `,
+        [
+          Number(course_id),
+          Number(module_id),
+            title,
+        ]
+    );
+
+    res.json({
+        success: true
+    });
 });
 
 router.post("/submit", authMiddleware, async (req, res) => {
