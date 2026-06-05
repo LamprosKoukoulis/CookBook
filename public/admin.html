@@ -3,12 +3,14 @@
 
 <head>
     <title>Culinary Learning Platform</title>
-    <link rel="stylesheet" href="/css/admin.css">
+    <link rel="stylesheet" href="./css/admin.css">
 </head>
 
 <body>
 <div id="header-container"></div>
-<h1>Admin Panel</h1>
+<div style="text-align: center; padding: 10px;">
+    <h1>Admin Panel</h1>
+</div>
 <section>
     <h2>Create Course</h2>
 
@@ -16,9 +18,7 @@
         <input id="courseTitle"
                placeholder="Course Title">
 
-        <textarea id="courseDescription"
-                  placeholder="Description">
-        </textarea>
+        <textarea id="courseDescription" placeholder="Περιγραφή Μαθήματος"></textarea>
 
         <input id="courseCategory"
                placeholder="Category">
@@ -38,9 +38,7 @@
         <input id="moduleTitle"
                placeholder="Module Title">
 
-        <textarea id="moduleContent"
-                  placeholder="Lesson Content">
-        </textarea>
+        <textarea id="moduleContent" placeholder="Περιγραφή Ενότητας"></textarea>
 
         <select id="moduleDifficulty">
             <option value="1">Easy</option>
@@ -109,6 +107,7 @@
 </section>
 
 <script src="./js/admin.js"></script>
+<script src="./js/header.js"></script>
 
 </body>
 </html>
