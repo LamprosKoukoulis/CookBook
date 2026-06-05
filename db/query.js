@@ -9,7 +9,14 @@ export default async function query(sql,params =[]) {
   // console.log("PARAMS:");
   // console.log(params);
   
-  const result = await db.execute(sql,params);
+
+  try {
+    var result = await db.execute(sql,params);
+  } catch (err) {
+    console.error("FULL DB ERROR:", JSON.stringify(err, null, 2));
+    // console.error("RAW:", err?.cause || err?.message);
+    throw err;
+  }
   
   //  Add labels to rows
   const rows = result.rows.map(row => {
