@@ -9,6 +9,35 @@ router.get("/", authMiddleware, async (req, res) => {
   res.json(result.rows);
 });
 
+router.post("/submit", authMiddleware, async (req, res) => {
+
+    const {
+            title,
+            description,
+            semester
+    } = req.body;
+
+    await query(
+        `
+            INSERT INTO courses(
+                title,
+                description,
+                semester
+            )
+            VALUES(?,?,?)
+        `,
+        [
+            title,
+            description,
+            Number(semester)
+        ]
+    );
+
+    res.json({
+        success: true
+    });
+});
+
 router.get("/:id/modules", authMiddleware, async (req, res) => {
   const result = await query({
     sql: "SELECT * FROM modules WHERE course_id = ?",

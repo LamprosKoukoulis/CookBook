@@ -10,6 +10,24 @@ async function initAdmin() {
 
 initAdmin();
 
+function setupForms() {
+
+    document
+        .getElementById("courseForm")
+        ?.addEventListener("submit", createCourse);
+
+    document
+        .getElementById("moduleForm")
+        ?.addEventListener("submit", createModule);
+
+    document
+        .getElementById("quizForm")
+        ?.addEventListener("submit", createQuiz);
+
+    document
+        .getElementById("questionForm")
+        ?.addEventListener("submit", createQuestion);
+}
 
 async function checkAdmin() {
 
@@ -63,34 +81,11 @@ async function createCourse(e) {
     const body = {
         title: document.getElementById("courseTitle").value,
         description: document.getElementById("courseDescription").value,
-        category: document.getElementById("courseCategory").value
+        semester: Number(document.getElementById("courseCategory").value)
     };
-
-    const res = await fetch("/courses", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        credentials: "include",
-        body: JSON.stringify(body)
-    });
-
-    if (res.ok) {
-        alert("Course created");
-        await loadCourses();
-    }
-}
-
-async function createCourse(e) {
-    e.preventDefault();
-
-    const body = {
-        title: document.getElementById("courseTitle").value,
-        description: document.getElementById("courseDescription").value,
-        category: document.getElementById("courseCategory").value
-    };
-
-    const res = await fetch("/courses", {
+    console.log("body: "+JSON.stringify(body));
+    
+    const res = await fetch("/courses/submit", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -268,4 +263,42 @@ async function loadQuizzes(moduleId = null) {
             </option>
         `;
     });
+}
+
+async function createQuestion(e) {
+    e.preventDefault();
+
+    const body = {
+        quiz_id:
+            document.getElementById("questionQuiz").value,
+
+        question:
+            document.getElementById("questionText").value,
+
+        type:
+            document.getElementById("questionType").value,
+
+        options: [
+            document.getElementById("option1").value,
+            document.getElementById("option2").value,
+            document.getElementById("option3").value,
+            document.getElementById("option4").value
+        ],
+
+        correct_answer:
+            document.getElementById("correctOption").value
+    };
+
+    const res = await fetch("/questions", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        credentials: "include",
+        body: JSON.stringify(body)
+    });
+
+    if (res.ok) {
+        alert("Question created");
+    }
 }

@@ -23,15 +23,14 @@ router.get("/course/:courseId",
     authMiddleware,
     async (req, res) => {
 
-        const result = await query({
-            sql: `
+        const result = await query(`
                 SELECT *
                 FROM modules
                 WHERE course_id = ?
                 ORDER BY title
             `,
-            args: [req.params.courseId]
-        });
+            [req.params.courseId]
+        );
 
         res.json(result.rows);
     }
@@ -46,8 +45,7 @@ router.post("/", authMiddleware, async (req, res) => {
         difficulty
     } = req.body;
 
-    await query({
-        sql: `
+    await query(`
             INSERT INTO modules(
                 course_id,
                 title,
@@ -56,13 +54,13 @@ router.post("/", authMiddleware, async (req, res) => {
             )
             VALUES(?,?,?,?,?)
         `,
-        args: [
+        [
             course_id,
             title,
             content,
             difficulty
         ]
-    });
+    );
 
     res.json({
         success: true

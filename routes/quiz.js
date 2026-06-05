@@ -5,15 +5,14 @@ import query from "../db/query.js";
 const router = express.Router();
 
 router.get("/:moduleId", authMiddleware, async (req, res) => {
-  const result = await query({
-    sql: `
+  const result = await query( `
       SELECT q.*
       FROM quizzes qz
       JOIN questions q ON q.quiz_id = qz.id
       WHERE qz.module_id = ?
     `,
-    args: [req.params.moduleId],
-  });
+    [req.params.moduleId],
+  );
 
   res.json(result.rows);
 });
@@ -34,14 +33,13 @@ router.post("/submit", authMiddleware, async (req, res) => {
     const isCorrect = correct === a.answer;
     if (isCorrect) score++;
 
-    await query({
-      sql: `
+    await query(`
         INSERT INTO user_answers 
         (user_id, question_id, answer, is_correct)
         VALUES (?, ?, ?, ?)
       `,
-      args: [req.user.id, a.question_id, a.answer, isCorrect ? 1 : 0],
-    });
+      [req.user.id, a.question_id, a.answer, isCorrect ? 1 : 0],
+    );
   }
 
   res.json({ score });

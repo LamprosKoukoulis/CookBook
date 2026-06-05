@@ -21,24 +21,23 @@ async function loadHeader() {
         return null;
     });
 
-    try {
-        const user = JSON.parse(text);
-        console.log("USER:", user);
-    } catch (e) {
-        console.log("NOT JSON RESPONSE");
-    }
     
     //IF NOT LOGGED IN
     if (!userRes || !userRes.ok) {
-
+        
         navGuest.hidden = false;
         navUser.hidden = true;
         navAdmin.hidden = true;
-
+        
         return;
     }
-
-    const user = await userRes.json();
+    
+    try {
+        var user = await userRes.json();
+        // console.log("USER:", user);
+    } catch (e) {
+        console.log("NOT JSON RESPONSE");
+    }
 
     // LOGGED IN: hide guest buttons
     navGuest.style.display = "none";

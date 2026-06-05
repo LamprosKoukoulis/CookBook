@@ -9,25 +9,23 @@ router.get(
     authMiddleware,
     async (req, res) => {
 
-        const result = await query({
-            sql: `
+        const result = await query(`
                 SELECT *
                 FROM questions
                 WHERE quiz_id = ?
             `,
-            args: [req.params.quizId]
-        });
+            [req.params.quizId]
+        );
 
         for (const q of result.rows){
 
-            const answers = await query({
-                sql:`
+            const answers = await query(`
                 SELECT id, option_text,is_correct
                 FROM question_answers
                 Where question_id =?
                 `,
-                args: [q.id]
-            });
+                 [q.id]
+            );
 
             result.answers = answers.rows;
         }
@@ -45,8 +43,7 @@ router.post("/", authMiddleware, async (req, res) => {
         correct_answer
     } = req.body;
 
-    await query({
-        sql: `
+    await query(`
             INSERT INTO questions(
                 quiz_id,
                 question,
@@ -55,13 +52,13 @@ router.post("/", authMiddleware, async (req, res) => {
             )
             VALUES(?,?,?,?,?)
         `,
-        args: [
+        [
             quiz_id,
             question,
             type,
             correct_answer
         ]
-    });
+    );
 
     res.json({
         success: true
@@ -69,13 +66,12 @@ router.post("/", authMiddleware, async (req, res) => {
 });
 
 router.delete("/:id",authMiddleware,async (req, res) => {
-        await query({
-            sql: `
+        await query(`
                 DELETE FROM questions
                 WHERE id = ?
             `,
-            args: [req.params.id]
-        });
+             [req.params.id]
+        );
 
         res.json({
             success: true
