@@ -5,36 +5,33 @@ import { authMiddleware } from "../middleware/auth.js";
 const router = express.Router();
 
 router.get("/", authMiddleware, async (req, res) => {
+    const {course_id} = req.query;
+    let result;
 
-    const result = await query(`
-        SELECT
-            modules.*,
-            courses.title AS course_title
-        FROM modules
-        LEFT JOIN courses
-        ON modules.course_id = courses.id
-        ORDER BY modules.title
-    `);
-
-    res.json(result.rows);
-});
-
-router.get("/course/:courseId",
-    authMiddleware,
-    async (req, res) => {
-
-        const result = await query(`
+    if(course_id){
+        result = await query(`
                 SELECT *
                 FROM modules
                 WHERE course_id = ?
                 ORDER BY title
             `,
-            [req.params.courseId]
+            [course_id]
         );
+    }else{
 
-        res.json(result.rows);
+        result = await query(`
+            SELECT
+            modules.*,
+            courses.title AS course_title
+            FROM modules
+            LEFT JOIN courses
+            ON modules.course_id = courses.id
+            ORDER BY modules.title
+            `);
+            
     }
-);
+    res.json(result.rows);
+});
 
 router.post("/", authMiddleware, async (req, res) => {
 
@@ -58,7 +55,7 @@ router.post("/", authMiddleware, async (req, res) => {
             course_id,
             title,
             content,
-            difficulty
+            Number(difficulty)
         ]
     );
 

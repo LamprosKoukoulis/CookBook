@@ -4,35 +4,34 @@ import { authMiddleware } from "../middleware/auth.js";
 
 const router = express.Router();
 
-router.get(
-    "/quiz/:quizId",
-    authMiddleware,
-    async (req, res) => {
+router.get("/",authMiddleware,async (req, res) => {
+    const {quiz_id} = req.query
+    if (quiz_id){
 
         const result = await query(`
-                SELECT *
-                FROM questions
-                WHERE quiz_id = ?
+            SELECT *
+            FROM questions
+            WHERE quiz_id = ?
             `,
             [req.params.quizId]
         );
-
+        
         for (const q of result.rows){
-
+            
             const answers = await query(`
                 SELECT id, option_text,is_correct
                 FROM question_answers
                 Where question_id =?
                 `,
-                 [q.id]
+                [q.id]
             );
-
+            
             result.answers = answers.rows;
         }
 
         res.json(result.rows);
     }
-);
+});
 
 router.post("/", authMiddleware, async (req, res) => {
 
@@ -80,18 +79,18 @@ router.post("/", authMiddleware, async (req, res) => {
     });
 });
 
-router.delete("/:id",authMiddleware,async (req, res) => {
-        await query(`
-                DELETE FROM questions
-                WHERE id = ?
-            `,
-             [req.params.id]
-        );
+// router.delete("/:id",authMiddleware,async (req, res) => {
+//         await query(`
+//                 DELETE FROM questions
+//                 WHERE id = ?
+//             `,
+//              [req.params.id]
+//         );
 
-        res.json({
-            success: true
-        });
-    }
-);
+//         res.json({
+//             success: true
+//         });
+//     }
+// );
 
 export default router;

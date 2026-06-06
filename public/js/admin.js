@@ -2,7 +2,8 @@ async function initAdmin() {
     await checkAdmin();
 
     await loadCourses();
-    await loadModules();
+    await loadModules("questionModule");
+    await loadModules("quizModule");
     await loadQuizzes();
 
     setupForms();
@@ -12,21 +13,21 @@ initAdmin();
 
 function setupForms() {
 
-    document
-        .getElementById("courseForm")
-        ?.addEventListener("submit", createCourse);
+    document.getElementById("courseForm")?.addEventListener("submit", createCourse);
 
-    document
-        .getElementById("moduleForm")
-        ?.addEventListener("submit", createModule);
+    document.getElementById("moduleForm")?.addEventListener("submit", createModule);
 
-    document
-        .getElementById("quizForm")
-        ?.addEventListener("submit", createQuiz);
+    document.getElementById("quizForm")?.addEventListener("submit", createQuiz);
 
-    document
-        .getElementById("questionForm")
-        ?.addEventListener("submit", createQuestion);
+    document.getElementById("questionForm")?.addEventListener("submit", createQuestion);
+
+    document.getElementById("questionCourse")?.addEventListener("change",e =>{loadModules("questionModule",e.target.value)});
+    
+    document.getElementById("questionModule")?.addEventListener("change",e =>{loadQuizzes(e.target.value)});
+    
+    document.getElementById("quizCourse")?.addEventListener("change",e =>{loadModules("quizModule",e.target.value)});
+
+    document.getElementById("questionType").addEventListener("change",updateQuestionTypeUI);
 }
 
 async function checkAdmin() {
@@ -48,33 +49,6 @@ async function checkAdmin() {
     }
 }
 
-
-document.getElementById("questionForm").addEventListener("submit", async (e) => {
-    e.preventDefault();
-
-    const body = {
-        quiz_id: document.getElementById("quiz_id").value,
-        question: document.getElementById("question").value,
-        type: document.getElementById("type").value,
-        correct_answer: document.getElementById("correct_answer").value
-    };
-
-    const res = await fetch("/quiz/submit", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        credentials: "include",
-        body: JSON.stringify(body)
-    });
-
-    if (res.ok) {
-        alert("Created!");
-    } else {
-        alert("Error");
-    }
-});
-
 async function createCourse(e) {
     e.preventDefault();
 
@@ -85,7 +59,7 @@ async function createCourse(e) {
     };
     console.log("body: "+JSON.stringify(body));
     
-    const res = await fetch("/courses/submit", {
+    const res = await fetch("/courses", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -162,16 +136,16 @@ async function createModule(e) {
 
     if (res.ok) {
         alert("Module created");
-        await loadModules();
+        // await loadModules();
     }
 }
 
-async function loadModules(courseId = null) {
+async function loadModules(fieldId, courseId = null) {
 
-    let url = "/modules";
+    let url = "/courses";
 
     if (courseId) {
-        url = `/modules/course/${courseId}`;
+        url = `/courses?course_id=${courseId}`;
     }
 
     const res = await fetch(url, {
@@ -181,19 +155,21 @@ async function loadModules(courseId = null) {
     if (!res.ok) return;
 
     const modules = await res.json();
+    const select = document.getElementById(`${fieldId}`);
 
-    const selects = [
-        document.getElementById("quizModule"),
-        document.getElementById("questionModule")
-    ];
+    if (!select) return;
+    // const selects = [
+    //     document.getElementById("quizModule"),
+    //     document.getElementById("questionModule")
+    // ];
 
-    selects.forEach(select => {
+    // selects.forEach(select => {
 
-        if (!select) return;
-
+        
         select.innerHTML =
-            `<option value="">Select Module</option>`;
-
+        `<option value="">Select Module</option>`;
+        
+        if (!courseId) return;
         modules.forEach(module => {
 
             select.innerHTML += `
@@ -202,7 +178,54 @@ async function loadModules(courseId = null) {
                 </option>
             `;
         });
-    });
+    // }
+    // );
+}
+
+function updateQuestionTypeUI() {
+
+    const type =
+        document.getElementById("questionType").value;
+
+    const optionInputs = [
+        document.getElementById("option1"),
+        document.getElementById("option2"),
+        document.getElementById("option3"),
+        document.getElementById("option4")
+    ];
+
+    const correctSelect =
+        document.getElementById("correctOption");
+
+    if (type === "true_false") {
+
+        optionInputs.forEach(i => {
+            i.style.display = "none";
+        });
+
+        correctSelect.innerHTML = `
+            <option value="1">
+                True
+            </option>
+
+            <option value="0">
+                False
+            </option>
+        `;
+    }
+    else {
+
+        optionInputs.forEach(i => {
+            i.style.display = "block";
+        });
+
+        correctSelect.innerHTML = `
+            <option value="1">Option 1</option>
+            <option value="2">Option 2</option>
+            <option value="3">Option 3</option>
+            <option value="4">Option 4</option>
+        `;
+    }
 }
 
 async function createQuiz(e) {
@@ -216,7 +239,7 @@ async function createQuiz(e) {
     console.log("course:", document.getElementById("quizCourse").value);
     console.log("module:", document.getElementById("quizModule").value);
     console.log("title:", document.getElementById("quizTitle").value);
-    const res = await fetch("/quiz/create", {
+    const res = await fetch("/quiz", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -227,7 +250,7 @@ async function createQuiz(e) {
 
     if (res.ok) {
         alert("Quiz created");
-        await loadQuizzes();
+        // await loadQuizzes();
     }
 }
 
@@ -236,27 +259,28 @@ async function loadQuizzes(moduleId = null) {
     let url = "/quiz";
 
     if (moduleId) {
-        url = `/quiz/${moduleId}`;
+        url = `/quiz?module_id=${moduleId}`;
     }
 
     const res = await fetch(url, {
         credentials: "include"
     });
 
+    
     if (!res.ok) return;
-
     const quizzes = await res.json();
 
-    const select =
-        document.getElementById("questionQuiz");
-
+    const select = document.getElementById("questionQuiz");
+        
     if (!select) return;
-
-    select.innerHTML =
-        `<option value="">Select Quiz</option>`;
-
+        
+    select.innerHTML =`<option value="">Select Quiz</option>`;
+    
+    if(!moduleId) return;
     quizzes.forEach(quiz => {
-
+        console.log("quizTitle: "+quiz.title);
+        console.log("quizId: "+quiz.id);
+        
         select.innerHTML += `
             <option value="${quiz.id}">
                 ${quiz.title}

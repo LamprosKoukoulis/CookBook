@@ -8,10 +8,10 @@ export default async function query(sql,params =[]) {
   // console.log(sql);
   // console.log("PARAMS:");
   // console.log(params);
-  
+  let result;
 
   try {
-    var result = await db.execute(sql,params);
+    result = await db.execute(sql,params);
   } catch (err) {
     console.error("FULL DB ERROR:", JSON.stringify(err, null, 2));
     // console.error("RAW:", err?.cause || err?.message);

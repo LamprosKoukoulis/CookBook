@@ -6,11 +6,21 @@ const router = express.Router();
 
 
 router.get("/", authMiddleware, async (req, res) => {
-  const result = await query("SELECT * FROM courses");
+  const { course_id } = req.query;
+  let result;
+  if(course_id){
+
+    result = await query(`
+      SELECT * FROM modules WHERE course_id = ?
+      `,[course_id]);
+
+    }else{
+      result = await query("SELECT * FROM courses");
+  }
   res.json(result.rows);
 });
 
-router.post("/submit", authMiddleware, async (req, res) => {
+router.post("/", authMiddleware, async (req, res) => {
 
     const {
             title,
@@ -37,15 +47,6 @@ router.post("/submit", authMiddleware, async (req, res) => {
     res.json({
         success: true
     });
-});
-
-router.get("/:id/modules", authMiddleware, async (req, res) => {
-  const result = await query({
-    sql: "SELECT * FROM modules WHERE course_id = ?",
-    args: [req.params.id],
-  });
-
-  res.json(result.rows);
 });
 
 export default router;
