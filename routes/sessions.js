@@ -11,8 +11,7 @@ router.post("/start", authMiddleware, async (req, res) => {
       INSERT INTO user_sessions 
       (user_id, module_id, started_at)
       VALUES (?, ?, datetime('now'))
-    `,
-    [req.user.id, module_id],
+    `,[req.user.id, module_id],
   );
 
   res.json({ started: true });
@@ -26,8 +25,7 @@ router.post("/end", authMiddleware, async (req, res) => {
       SET ended_at = datetime('now'),
           time_spent_seconds = ?
       WHERE id = ?
-    `,
-    [seconds, session_id],
+    `,[seconds, session_id],
   );
 
   res.json({ ended: true });

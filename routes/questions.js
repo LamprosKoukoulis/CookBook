@@ -12,8 +12,7 @@ router.get("/",authMiddleware,async (req, res) => {
             SELECT *
             FROM questions
             WHERE quiz_id = ?
-            `,
-            [req.params.quizId]
+            `,[req.params.quizId]
         );
         
         for (const q of result.rows){
@@ -22,8 +21,7 @@ router.get("/",authMiddleware,async (req, res) => {
                 SELECT id, option_text,is_correct
                 FROM question_answers
                 Where question_id =?
-                `,
-                [q.id]
+                `,[q.id]
             );
             
             result.answers = answers.rows;
@@ -51,8 +49,7 @@ router.post("/", authMiddleware, async (req, res) => {
             )
             VALUES(?,?,?)
             RETURNING id
-        `,
-        [
+        `,[
             Number(quiz_id),
             question,
             type
@@ -66,8 +63,7 @@ router.post("/", authMiddleware, async (req, res) => {
             )
             VALUES(?,?,?)
             RETURNING id
-        `,
-        [
+        `,[
             result.rows[0].id,
             options,
             correct_answer

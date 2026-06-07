@@ -14,15 +14,14 @@ router.get("/", authMiddleware, async (req, res) => {
                 FROM modules
                 WHERE course_id = ?
                 ORDER BY title
-            `,
-            [course_id]
+            `,[course_id]
         );
     }else{
 
         result = await query(`
-            SELECT
-            modules.*,
-            courses.title AS course_title
+            SELECT 
+                modules.*,
+                courses.title AS course_title
             FROM modules
             LEFT JOIN courses
             ON modules.course_id = courses.id
@@ -50,8 +49,7 @@ router.post("/", authMiddleware, async (req, res) => {
                 difficulty
             )
             VALUES(?,?,?,?)
-        `,
-        [
+        `,[
             course_id,
             title,
             content,

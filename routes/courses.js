@@ -36,8 +36,7 @@ router.post("/", authMiddleware, async (req, res) => {
                 semester
             )
             VALUES(?,?,?)
-        `,
-        [
+        `,[
             title,
             description,
             Number(semester)

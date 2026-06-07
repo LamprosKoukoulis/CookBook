@@ -15,8 +15,7 @@ router.post("/",authMiddleware,async(req,res) =>{
               title
             )
             VALUES(?,?,?)
-        `,
-        [
+        `,[
           Number(course_id),
           Number(module_id),
             title,
@@ -36,8 +35,7 @@ router.get("/", authMiddleware, async (req, res) => {
       SELECT *
       FROM quizzes
       WHERE module_id = ?
-    `,
-    [module_id]
+    `,[module_id]
   );
 
   }else{

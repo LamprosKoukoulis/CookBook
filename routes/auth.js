@@ -44,8 +44,7 @@ router.post("/register", async (req, res) => {
     await query(
       `INSERT INTO users(email,password_hash,full_name,semester)
       VALUES(?,?,?,?)
-      `,
-      [
+      `,[
         email,
         hash,
         full_name,
@@ -116,8 +115,7 @@ router.get(
           role
         FROM users
         WHERE id = ?
-        `,
-        [req.user.id]
+        `,[req.user.id]
       );
     
     res.json(user.rows[0]);
