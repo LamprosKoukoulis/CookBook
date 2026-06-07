@@ -15,7 +15,6 @@ async function loadHeader() {
 
     const userRes = await fetch("/auth/me", {
         credentials: "include"
-    // }).catch(() => null);
     }).catch(err => {
         console.log("FETCH FAILED:", err);
         return null;

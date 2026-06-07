@@ -14,7 +14,7 @@ async function loadUser(){
 
 
         const user = await response.json();
-        console.log("USER FROM API:", user);
+        // console.log("USER FROM API:", user);
         // document.getElementById("authButtons").style.display = "none";
         
         // document.getElementById("userArea").style.display = "block";
@@ -22,8 +22,7 @@ async function loadUser(){
         document.getElementById("privateContent").style.display = "block";
         
         document.getElementById("welcomeText")
-        .textContent =
-        `Welcome ${user.full_name}`;
+        .textContent =`Welcome ${user.full_name}`;
 
 }
 
