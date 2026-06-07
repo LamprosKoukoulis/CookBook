@@ -3,7 +3,7 @@
 import dotenv from "dotenv";
 import { connect } from "@tursodatabase/serverless";
 
-dotenv.config();
+dotenv.config({quiet: true}); //hide dotenv console output
 let dbPromise = null; //only one connection is created for the whole app
 
 export function getDb() {
