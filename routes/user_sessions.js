@@ -62,17 +62,24 @@ res.json({
 
 // END session
 router.put("/",authMiddleware,async (req,res) =>{
-    await query(`
+    const {session_id} = req.body;
+    if(session_id){
+        await query(`
             UPDATE user_sessions
             SET 
-                ended_at = CURRENT_TIMESTAMP,
-                WHERE id = ?
-        `,[req.params.session_id]);
-
+            ended_at = CURRENT_TIMESTAMP
+            WHERE id = ?
+            `,[session_id]);
+            
+            res.json({
+                success:true
+            })
+        }else{
         res.json({
-            success:true
-        })
-    });
+            success:false
+        });
+    }
+});
 
 
 export default router;
