@@ -6,18 +6,26 @@ const router = express.Router();
 
 
 router.get("/", authMiddleware, async (req, res) => {
-  const { course_id } = req.query;
+  const { course_id,semester } = req.query;
   let result;
   if(course_id){
-
     result = await query(`
-      SELECT * FROM modules WHERE course_id = ?
+      SELECT * FROM courses WHERE course_id = ?
       `,[course_id]);
-
     }else{
       result = await query("SELECT * FROM courses");
   }
   res.json(result.rows);
+});
+
+router.get("/semester",authMiddleware, async (req,res) =>{
+    const semester = req.user.semester; 
+    
+    const result = await query(`
+            SELECT * FROM courses WHERE semester <= ?
+            `,[Number(semester)]);
+
+    res.json(result.rows);
 });
 
 router.post("/", authMiddleware, async (req, res) => {
