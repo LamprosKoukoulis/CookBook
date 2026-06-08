@@ -12,9 +12,12 @@ body {
 
 
 
-h1 {
+h1,h2 {
     color: #2d3436;
+    text-align: center;
+    padding: 10px 20px;
 }
+
 
 .hero {
     text-align: center;
