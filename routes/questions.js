@@ -12,7 +12,7 @@ router.get("/",authMiddleware,async (req, res) => {
             SELECT *
             FROM questions
             WHERE quiz_id = ?
-            `,[req.params.quizId]
+            `,[quiz_id]
         );
         
         for (const q of result.rows){
@@ -24,7 +24,7 @@ router.get("/",authMiddleware,async (req, res) => {
                 `,[q.id]
             );
             
-            result.answers = answers.rows;
+            q.answers = answers.rows;
         }
 
         res.json(result.rows);
@@ -41,7 +41,7 @@ router.post("/", authMiddleware, async (req, res) => {
         correct_answer,
         difficulty
     } = req.body;
-
+    
     const result = await query(`
             INSERT INTO questions(
                 quiz_id,
@@ -58,21 +58,37 @@ router.post("/", authMiddleware, async (req, res) => {
             Number(difficulty)
         ]
     );
+    if(type ==="true_false"){
+                await query(`
+            INSERT INTO question_answers(
+                question_id,
+                is_correct
+                )
+                VALUES(?,?)
+                RETURNING id
+            `,[
+                Number(result.rows[0].id),
+                Number(correct_answer)
+        ]);
+        return;
+    }
+
+    for(let i =0; i< options.length;i++){
         await query(`
             INSERT INTO question_answers(
                 question_id,
                 option_text,
                 is_correct
-            )
-            VALUES(?,?,?)
-            RETURNING id
-        `,[
-            result.rows[0].id,
-            options,
-            correct_answer
-        ]
-    );
-
+                )
+                VALUES(?,?,?)
+                RETURNING id
+            `,[
+                Number(result.rows[0].id),
+                options[i],
+                i == correct_answer ? 1 : 0
+        ]);
+    }
+            
     res.json({
         success: true
     });

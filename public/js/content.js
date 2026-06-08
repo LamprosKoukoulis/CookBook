@@ -16,15 +16,24 @@ async function loadContent(){
     courses = await res.json();
 
     prevCourse = courses[0].semester;
-    container.innerHTML +=`<h2>Semester ${prevCourse}</h2>`;
+    container.innerHTML +=`<h3>Semester ${prevCourse}</h3>`;
     
     courses.forEach(course => {
         console.log(course.semester);
         if(prevCourse !== course.semester){
-            container.innerHTML +=`<h2>Semester ${course.semester}</h2>`;
+            container.innerHTML +=`<h3>Semester ${course.semester}</h3>`;
             prevCourse = course.semester;
         }
-        container.innerHTML +=`<input type="button" id="${course.id}" value="${course.title}">`;
+        container.innerHTML +=`<button class="course-btn" data-course-id="${course.id}">${course.title}</button>`;
+    });
+
+
+    document.querySelectorAll(".course-btn").forEach(btn =>{
+        btn.addEventListener("click",() =>{
+            const courseId = btn.dataset.courseId;
+
+            window.location.href =`/course.html?course_id=${courseId}`;
+        });
     });
 
 }

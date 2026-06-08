@@ -9,6 +9,9 @@ import moduleRoutes from "../routes/modules.js";
 import questionRoutes from "../routes/questions.js";
 import sessionRoutes from "../routes/sessions.js";
 import statsRoutes from "../routes/stats.js";
+import user_answers from "../routes/user_answers.js";
+import user_progress from "../routes/user_progress.js";
+import user_sessions from "../routes/user_sessions.js";
 import cookieParser from "cookie-parser";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -39,5 +42,8 @@ app.use("/modules", moduleRoutes);
 app.use("/questions", questionRoutes);
 app.use("/sessions", sessionRoutes);
 app.use("/stats", statsRoutes);
+app.use("/user_answers",user_answers);
+app.use("/user_progress",user_progress);
+app.use("/user_sessions",user_sessions);
 
 export default app;

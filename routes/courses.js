@@ -10,8 +10,11 @@ router.get("/", authMiddleware, async (req, res) => {
   let result;
   if(course_id){
     result = await query(`
-      SELECT * FROM courses WHERE course_id = ?
+      SELECT * FROM courses WHERE id = ?
       `,[course_id]);
+
+      return res.json(result.rows[0])
+    
     }else{
       result = await query("SELECT * FROM courses");
   }

@@ -80,4 +80,32 @@ function total_seconds(started_at,ended_at){
         return (end - start)/1000;
 }
 
+router.get("/module", authMiddleware, async (req, res) => {
+    const userId = req.user.id;
+    const { moduleId } = req.query;
+
+    // completion %
+    const progress = await query(`
+        SELECT completion_percent
+        FROM user_progress
+        WHERE user_id = ? AND module_id = ?
+    `, [userId, moduleId]);
+
+    // last score (from user_answers grouped per quiz/module)
+    const lastScore = await query(`
+        SELECT COUNT(*) as correct
+        FROM user_answers ua
+        JOIN questions q ON q.id = ua.question_id
+        WHERE ua.user_id = ?
+        AND q.quiz_id IN (
+            SELECT id FROM quizzes WHERE module_id = ?
+        )
+        AND ua.is_correct = 1
+    `, [userId, moduleId]);
+
+    res.json({
+        completion_percent: progress.rows[0]?.completion_percent || 0,
+        last_score: lastScore.rows[0]?.correct || 0
+    });
+});
 export default router;
