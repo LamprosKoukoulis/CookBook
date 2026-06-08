@@ -37,23 +37,20 @@ router.post("/", authMiddleware, async (req, res) => {
     const {
         course_id,
         title,
-        content,
-        difficulty
+        content
     } = req.body;
 
     await query(`
             INSERT INTO modules(
                 course_id,
                 title,
-                content,
-                difficulty
+                content
             )
             VALUES(?,?,?,?)
         `,[
             course_id,
             title,
-            content,
-            Number(difficulty)
+            content
         ]
     );
 

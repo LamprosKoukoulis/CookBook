@@ -119,10 +119,7 @@ async function createModule(e) {
             document.getElementById("moduleTitle").value,
 
         content:
-            document.getElementById("moduleContent").value,
-
-        difficulty:
-            document.getElementById("moduleDifficulty").value
+            document.getElementById("moduleContent").value
     };
 
     const res = await fetch("/modules", {
@@ -309,8 +306,9 @@ async function createQuestion(e) {
             document.getElementById("option4").value
         ],
 
-        correct_answer:
-            document.getElementById("correctOption").value
+        correct_answer: document.getElementById("correctOption").value,
+
+        difficulty:document.getElementById("moduleDifficulty").value
     };
 
     const res = await fetch("/questions", {

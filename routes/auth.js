@@ -100,11 +100,7 @@ router.post("/logout", (req, res) => {
   res.json({ message: "Logged out" });
 });
 
-router.get(
-  "/me",
-  authMiddleware,
-  async (req,res)=>{
-
+router.get("/me", authMiddleware, async (req,res)=>{
     const user =
       await query(`
         SELECT
@@ -122,11 +118,7 @@ router.get(
   }
 );
 
-router.get(
-    "/admin/panel",
-    authMiddleware,
-    adminMiddleware,
-    (req, res) => {
+router.get("/admin/panel", authMiddleware, adminMiddleware, (req, res) => {
         res.redirect("/admin.html");
     }
 );

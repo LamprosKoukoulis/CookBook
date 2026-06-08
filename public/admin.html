@@ -39,70 +39,70 @@
                placeholder="Module Title">
 
         <textarea id="moduleContent" placeholder="Περιγραφή Ενότητας"></textarea>
-
-        <select id="moduleDifficulty">
-            <option value="1">Easy</option>
-            <option value="2">Normal</option>
-            <option value="3">Medium</option>
-            <option value="4">Hard</option>
-            <option value="5">Expert</option>
-        </select>
-
+        
         <button type="submit">Create</button>
-
+        
     </form>
 </section>
 
 
 <section>
     <h2>Create Quiz</h2>
-
+    
     <form id="quizForm">
-
+        
         <select id="quizCourse">
         </select>
-
+        
         <select id="quizModule">
         </select>
-
+        
         <input id="quizTitle"
-               placeholder="Quiz Title">
-
+        placeholder="Quiz Title">
+        
         <button type="submit">Create</button>
-
+        
     </form>
 </section>
 
 <section>
     <h2>Add Question</h2>
-
+    
     <form id="questionForm">
         <select id="questionCourse"></select>
-
+        
         <select id="questionModule"></select>
-
+        
         <select id="questionQuiz"></select>
         <!-- <input id="quiz_id" placeholder="Quiz ID" /> -->
         <input id="questionText" placeholder="Question" />
-
+        
         <select id="questionType">
             <option value="multiple_choice">Multiple Choice</option>
             <!-- <option value="multiple_correct_choice">Multiple Correct Choice</option> //Todo: Implement ?  -->
             <option value="true_false">True/False</option>
         </select>
-
+        
         <input id="option1" placeholder="Option 1">
         <input id="option2" placeholder="Option 2">
         <input id="option3" placeholder="Option 3">
         <input id="option4" placeholder="Option 4">
-
+        
         <select id="correctOption">
             <option value="1">Option 1</option>
             <option value="2">Option 2</option>
             <option value="3">Option 3</option>
             <option value="4">Option 4</option>
         </select>
-
+        
+                <select id="moduleDifficulty">
+                    <option value="1">Easy</option>
+                    <option value="2">Normal</option>
+                    <option value="3">Medium</option>
+                    <option value="4">Hard</option>
+                    <option value="5">Expert</option>
+                </select>
+        
         <button type="submit">Create</button>
     </form>
 </section>
