@@ -1,28 +1,19 @@
+import { getMe } from "./auth.js";
+
 async function loadUser(){
 
-    const response =await fetch(
-            "/auth/me",
-            {
-                credentials:"include"
-            }
-        );
-
-    if(!response.ok){
+    const user =await getMe();
+    if(!user){
         window.location.href = "/login.html";
         return;
     }
 
-
-        const user = await response.json();
-        // console.log("USER FROM API:", user);
-        // document.getElementById("authButtons").style.display = "none";
-        
-        // document.getElementById("userArea").style.display = "block";
-        
-        document.getElementById("privateContent").style.display = "block";
-        
-        document.getElementById("welcomeText")
-        .textContent =`Welcome ${user.full_name}`;
+    // document.getElementById("authButtons").style.display = "none";
+    // document.getElementById("userArea").style.display = "block";
+    
+    document.getElementById("privateContent").style.display = "block";
+    
+    // document.getElementById("dashboardWelcomeText").textContent =`Welcome ${user.full_name}`;
 
 }
 
@@ -40,13 +31,9 @@ async function loadHallOfFame() {
 
     if (!response.ok) return;
 
-    const users =
-        await response.json();
+    const users = await response.json();
 
-    const container =
-        document.getElementById(
-            "hallOfFame"
-        );
+    const container =document.getElementById("hallOfFame");
 
     container.innerHTML = "";
 
