@@ -15,13 +15,39 @@ body {
 h1,h2 {
     color: #2d3436;
     text-align: center;
-    padding: 10px 20px;
+    /* padding: 10px 20px; */
 }
 
+.hero-icon{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.icon{
+    width : 46px;
+    height :46px;
+    /* display: flex; */
+    /* justify-content: center; */
+    /* text-align: middle; */
+}
+
+.line{
+    width: 120px;
+    height: 2px;
+    background: linear-gradient(
+        to right,
+        transparent,
+        #e7e7e7,
+        transparent);
+}
 
 .hero {
     text-align: center;
-    padding: 60px 20px;
+    margin-top: 45px;
+    padding: 30px 20px;
 }
 
 .hero h2 {
@@ -31,6 +57,28 @@ h1,h2 {
 .hero p {
     max-width: 700px;
     margin: auto;
+}
+.welcomeText {
+    position: absolute;
+    margin-top: 17px;
+    left: 50%;
+    transform: translate(-50%, 100px);
+    opacity: 0;
+
+    animation: flyCenter 1s ease-out forwards;
+
+    font-size: 12px;
+    font-weight: 700;
+    background: linear-gradient(90deg,#636363, #000000,#636363);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+@keyframes flyCenter {
+    to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
 }
 
 section {
