@@ -26,6 +26,7 @@ router.get("/semester",authMiddleware, async (req,res) =>{
     
     const result = await query(`
             SELECT * FROM courses WHERE semester <= ?
+            ORDER BY courses.semester
             `,[Number(semester)]);
 
     res.json(result.rows);
