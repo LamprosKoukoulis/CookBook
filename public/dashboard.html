@@ -4,50 +4,59 @@
 <head>
     <title>Culinary Learning Platform</title>
     <link rel="stylesheet" href="/css/style.css">
+
 </head>
 
 <body>
 
     <div id="header-container"></div>
+    <div>
+        <div id="dashboardWelcomeText" class="welcomeText"></div>
+    </div>
 
     <section class="hero">
-        <h2>
-            <img src="./images/learning.png" width="64" height="64"><br>
-            Learn Culinary Arts Through Adaptive Learning
-        </h2>
-
+        <div class="hero-icon">
+            <span class="line"></span>
+            <img class="icon" src="./images/learning.png"><br>
+            <span class="line"></span>
+        </div>
+        <h2>Learn Culinary Arts Through Adaptive Learning</h2>
+        
         <p>
             Study ingredients, cooking techniques,
             hygiene and food safety through
             interactive educational modules.
         </p>
     </section>
-
+    
     <section>
-        <h2> 
-            <img src="./images/hall-of-fame.png" width="64" height="64"><br>
-            Hall of Fame
-        </h2>
-            
-            <div id="hallOfFame">
-                Loading...
-            </div>
-        </section>
+        <div class="hero-icon">
+            <span class="line"></span>
+            <img class="icon" src="./images/hall-of-fame.png"><br>
+            <span class="line"></span>
+        </div>
+        <h2> Hall of Fame</h2>
         
-        <section id="privateContent" style="display:none">
-            <h2>
-                <img src="./images/progress.png" width="64" height="64"><br>
-                Your Progress
-            </h2>
+        <div id="hallOfFame">
+            Loading...
+        </div>
+    </section>
+    
+    <section id="privateContent" style="display:none">
+        <div class="hero-icon">
+            <span class="line"></span>
+            <img class="icon" src="./images/progress.png"><br>
+            <span class="line"></span>
+        </div>  
+        <h2>Your Progress</h2>
 
         <p>
-            Access your courses,
-            statistics and adaptive learning path.
+            Access your courses, statistics and adaptive learning path.
         </p>
     </section>
 
-    <script src="./js/header.js"></script>
-    <script src="./js/dashboard.js"></script>
+    <script type="module" src="./js/dashboard.js"></script>
+    <script type="module" src="./js/header.js"></script>
     <script src="./js/content.js"></script>
 
 </body>
