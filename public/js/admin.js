@@ -139,10 +139,10 @@ async function createModule(e) {
 
 async function loadModules(fieldId, courseId = null) {
 
-    let url = "/courses";
+    let url = "/modules";
 
     if (courseId) {
-        url = `/courses?course_id=${courseId}`;
+        url = `/modules?course_id=${courseId}`;
     }
 
     const res = await fetch(url, {
