@@ -46,7 +46,7 @@ router.post("/", authMiddleware, async (req, res) => {
                 title,
                 content
             )
-            VALUES(?,?,?,?)
+            VALUES(?,?,?)
         `,[
             course_id,
             title,

@@ -7,7 +7,8 @@ const router = express.Router();
 router.get("/", authMiddleware, async (req, res) => {
     const {
         user_id,
-        module_id
+        module_id,
+        quiz_id
     } = req.query;
 
     let result;
@@ -17,7 +18,13 @@ router.get("/", authMiddleware, async (req, res) => {
             FROM user_sessions
             WHERE user_id =?
             `,[Number(user_id)]);
-    }else if(question_id){
+        }else if(quiz_id){
+            result = await query(`
+                SELECT *
+                FROM user_sessions
+                WHERE quiz_id =?
+            `,[Number(quiz_id)]);
+    }else if(module_id){
         result = await query(`
             SELECT *
             FROM user_sessions
@@ -29,7 +36,6 @@ router.get("/", authMiddleware, async (req, res) => {
             FROM user_sessions`);
     }
     res.json(result.rows);
-
 });
 
 //Start session
@@ -37,7 +43,6 @@ router.post("/", authMiddleware, async (req, res) => {
     const { module_id } = req.body;
 
     if(module_id){
-
         const result = await query(`
             INSERT INTO user_sessions(
                 user_id, 
@@ -45,19 +50,20 @@ router.post("/", authMiddleware, async (req, res) => {
                 started_at)
                 VALUES(?,?,CURENT_TIMESTAMP)
                 RETURNING id`,[
-                    req.user.id,
-    Number(module_id)
-]);
+        req.user.id,
+        Number(module_id)
+        ]);
 
-res.json({
-    session_id: result.rows[0].id
-});
-}else{
-    console.error("[user_sessions] module_id is not specified!");
-    res.json({
-        success:false
-    })
-}
+        res.json({
+            session_id: result.rows[0].id
+        });
+
+    }else{
+        console.error("[user_sessions] module_id is not specified!");
+        res.json({
+            success:false
+        });
+    }
 });
 
 // END session
@@ -73,11 +79,11 @@ router.put("/",authMiddleware,async (req,res) =>{
             
             res.json({
                 success:true
-            })
+            });
         }else{
-        res.json({
-            success:false
-        });
+            res.json({
+                success:false
+            });
     }
 });
 
