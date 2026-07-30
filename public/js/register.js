@@ -13,6 +13,8 @@ document.getElementById("registerForm")
         password:
             document.getElementById("password").value,
 
+        role:
+            document.getElementById("role").value,
         semester:
             document.getElementById("semester").value
     };

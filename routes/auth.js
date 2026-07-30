@@ -13,7 +13,8 @@ router.post("/register", async (req, res) => {
       email,
       password,
       full_name,
-      semester
+      semester,
+      role
     } = req.body;
 
     if (!email || !password || !full_name) {
@@ -42,13 +43,14 @@ router.post("/register", async (req, res) => {
     const hash = await bcrypt.hash(password, 10);
 
     await query(
-      `INSERT INTO users(email,password_hash,full_name,semester)
-      VALUES(?,?,?,?)
+      `INSERT INTO users(email,password_hash,full_name,semester,role)
+      VALUES(?,?,?,?,?)
       `,[
         email,
         hash,
         full_name,
-        semester || 1
+        semester || 1,
+        role
       ]
     );
 

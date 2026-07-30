@@ -10,7 +10,7 @@ router.get("/", authMiddleware, async (req, res) => {
   let result;
   if(course_id){
     result = await query(`
-      SELECT * FROM courses WHERE id = ?
+      SELECT * FROM courses WHERE id = ?, status ='approved'
       `,[course_id]);
 
       return res.json(result.rows[0])
@@ -45,19 +45,34 @@ router.post("/", authMiddleware, async (req, res) => {
             INSERT INTO courses(
                 title,
                 description,
-                semester
+                semester,
+                status
             )
-            VALUES(?,?,?)
+            VALUES(?,?,?,?)
         `,[
             title,
             description,
-            Number(semester)
+            Number(semester),
+            'pending'
         ]
     );
 
     res.json({
         success: true
     });
+});
+
+router.put('/',authMiddleware,adminMiddleware, async(req,res)=>{
+    const {course_id} = req.query;
+
+    await query(`UPDATE courses
+                SET status = 'approved'
+                WHERE id = ?
+            `,[
+                course_id
+            ]);
+
+    res.json({success:true});
 });
 
 export default router;

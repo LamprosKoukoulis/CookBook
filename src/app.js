@@ -12,6 +12,7 @@ import statsRoutes from "../routes/stats.js";
 import user_answers from "../routes/user_answers.js";
 import user_progress from "../routes/user_progress.js";
 import user_sessions from "../routes/user_sessions.js";
+import admin from "../routes/admin.js";
 import cookieParser from "cookie-parser";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -45,5 +46,6 @@ app.use("/stats", statsRoutes);
 app.use("/user_answers",user_answers);
 app.use("/user_progress",user_progress);
 app.use("/user_sessions",user_sessions);
+app.use("/admin",admin);
 
 export default app;

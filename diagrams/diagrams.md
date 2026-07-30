@@ -130,3 +130,18 @@ erDiagram
 
     ACHIEVEMENTS ||--o{ USER_ACHIEVEMENTS : awarded_as
 ```
+
+```mermaid
+sequenceDiagram
+participant User
+participant Frontend
+participant API
+participant Database
+
+User->>Frontend: Interact (click quiz / course)
+Frontend->>API: Fetch request (GET/POST)
+API->>Database: Query / Insert / Update
+Database-->>API: Return data
+API-->>Frontend: JSON response
+Frontend-->>User: Render UI update
+```
